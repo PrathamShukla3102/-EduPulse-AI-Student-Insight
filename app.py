@@ -4,7 +4,7 @@ import google.generativeai as genai
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Configure Gemini API key
+
 genai.configure(api_key="AIzaSyD0FF3SkwjVh1diVJ-xEJyw2aIECrzpoMY")  # Replace with your Gemini API key
 
 # Initialize Gemini model
@@ -12,11 +12,11 @@ model = genai.GenerativeModel("models/gemini-1.5-flash-latest")
 
 st.set_page_config(page_title="EduPulse – AI Student Insight", layout="centered")
 
-# Session state init
+
 if "history" not in st.session_state:
     st.session_state.history = []
 
-# AI content generation
+
 def generate_ai_text(prompt: str) -> str:
     try:
         response = model.generate_content([{"role": "user", "parts": [prompt]}])
@@ -24,11 +24,10 @@ def generate_ai_text(prompt: str) -> str:
     except Exception as e:
         return f"⚠️ Error generating AI content: {e}"
 
-# Title & Description
 st.title("🎓 EduPulse – AI Student Insight")
 st.markdown("Empower feedback with AI-driven analysis. Select a KPI or view:")
 
-# Sidebar selection, adding "All Students"
+
 option = st.sidebar.selectbox(
     "📌 Select KPI or View:",
     ["Feedback Lag Index (FLI)", "Personal Relevance Score (PRS)", "All Students"]
@@ -116,9 +115,9 @@ Keep it actionable and under 100 words.
             "Insight": insight
         })
 
-# All Students: No input form needed, just shows history and plots
 
-# Display History Table & Plots
+
+
 if st.session_state.history:
     st.subheader("📊 Student KPI History")
     df = pd.DataFrame(st.session_state.history)
@@ -155,7 +154,7 @@ if st.session_state.history:
                     st.pyplot(plt.gcf())
 
     else:
-        # Aggregate plots for ALL students
+    
         df['Date'] = pd.to_datetime(df['Date'])
 
         if "Lag (hrs)" in df.columns:
